@@ -12,10 +12,7 @@ public final class TreeAssister extends JavaPlugin {
     public static boolean enableSaplings;
     public static boolean enableCrops;
     public static boolean showParticles;
-    public static int blockRadius;
-    public static int mobRadius;
-    public static double blockPercentage;
-    public static double mobPercentage;
+    public static int radius = 5;
 
     @Override
     public void onEnable() {
@@ -27,10 +24,7 @@ public final class TreeAssister extends JavaPlugin {
         enableSaplings = config.getBoolean("Tweaks.growSaplings", true);
         enableCrops = config.getBoolean("Tweaks.growCrops", true);
         showParticles = config.getBoolean("Tweaks.showParticles", true);
-        blockRadius = config.getInt("Tweaks.blockRadius", 5);
-        mobRadius = config.getInt("Tweaks.mobRadius", 5);
-        blockPercentage = config.getDouble("Tweaks.blockPercentage", 0.1);
-        mobPercentage = config.getDouble("Tweaks.mobPercentage", 0.05);
+        radius = config.getInt("Tweaks.radius", 5);
         saveDefaultConfig();
 
         getServer().getPluginManager().registerEvents(new SneakHandler(), this);

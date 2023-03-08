@@ -1,9 +1,9 @@
-settings:
+Tweaks:
   # Minimum ticks of interval between growing
-  cooldownTicks: 3
+  cooldownTicks: 5
   # Grow saplings when player sneaks
-  growSaplings: 30
+  growSaplings: 100
   # Grow crops when player sneaks
-  growCrops: 30
+  growCrops: 100
   # Show bonemeal particles when appropriate. Not sure why you would turn this off, but eh
   showParticles: true

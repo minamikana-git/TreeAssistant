@@ -48,31 +48,31 @@ public class SneakHandler implements Listener {
             if (state.isSneaked) {
                 // 作物成長
                 {
-                    List<Block> ageables = getAgeableBlockInRange(location, TreeAssister.blockRadius);
+                    Optional<Block> blockOptional = getRandomElement(getAgeableBlockInRange(location, TreeAssister.radius));
 
-                    ageables.forEach(block -> {
-                        if (rnd.nextFloat() < TreeAssister.blockPercentage) {
+                    blockOptional.ifPresent(block -> {
+                        if (rnd.nextFloat() < .45) {
                             Object nmsBlockPosition = ReflectionUtil.constructBlockPosition(block.getX(), block.getY(), block.getZ());
                             ReflectionUtil.applyBoneMeal(nmsBoneMeal, nmsWorld, nmsBlockPosition);
-
-                            if (TreeAssister.showParticles)
-                                sendPacketGrowBlock(block.getLocation());
                         }
+
+                        if (TreeAssister.showParticles)
+                            sendPacketGrowBlock(block.getLocation());
                     });
                 }
 
                 // Mob成長
                 {
-                    List<Ageable> ageables = getAgeableEntityInRange(location, TreeAssister.mobRadius);
+                    Optional<Ageable> entityOptional = getRandomElement(getAgeableEntityInRange(location, TreeAssister.radius));
 
-                    ageables.forEach(entity -> {
-                        if (rnd.nextFloat() < TreeAssister.mobPercentage) {
+                    entityOptional.ifPresent(entity -> {
+                        if (rnd.nextFloat() < .25) {
                             entity.setAge(entity.getAge() + 1);
                             entity.setBreed(true);
-
-                            if (TreeAssister.showParticles)
-                                sendPacketGrowEntity(entity.getLocation());
                         }
+
+                        if (TreeAssister.showParticles)
+                            sendPacketGrowEntity(entity.getLocation());
                     });
                 }
 
@@ -85,6 +85,12 @@ public class SneakHandler implements Listener {
             state.isSneaking = isSneaking;
             state.isSneaked = true;
         }
+    }
+
+    private <T> Optional<T> getRandomElement(List<T> elements) {
+        if (elements.isEmpty())
+            return Optional.empty();
+        return Optional.ofNullable(elements.get(rnd.nextInt(elements.size())));
     }
 
     private void sendPacketGrowBlock(Location location) {
